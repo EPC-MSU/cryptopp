@@ -794,6 +794,11 @@ NAMESPACE_END
 # define CRYPTOPP_CXX11 1
 #endif
 
+// HACK: Prevent race condition in static mutex construction on msvc2013; see #11129 for more info
+#if _MSC_VER >= 1600
+# undef CRYPTOPP_CXX11
+#endif
+
 // Hack ahead. Apple's standard library does not have C++'s unique_ptr in C++11. We can't
 //   test for unique_ptr directly because some of the non-Apple Clangs on OS X fail the same
 //   way. However, modern standard libraries have <forward_list>, so we test for it instead.
